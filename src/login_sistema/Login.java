@@ -4,6 +4,9 @@
  */
 package login_sistema;
 
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ASUS
@@ -17,6 +20,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+
     }
 
     /**
@@ -37,11 +41,10 @@ public class Login extends javax.swing.JFrame {
         txt_contrasena = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPasswordField1 = new javax.swing.JPasswordField();
-        panel_ingresar = new javax.swing.JPanel();
-        txt_ingresar = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        moverpartesuperior = new javax.swing.JPanel();
+        jpanelParteSuperior = new javax.swing.JPanel();
+        btn_Xdesalir = new javax.swing.JLabel();
+        btn_ingresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -73,6 +76,14 @@ public class Login extends javax.swing.JFrame {
         txt_nombredeusuario.setForeground(new java.awt.Color(204, 204, 204));
         txt_nombredeusuario.setText("Ingrese su ID");
         txt_nombredeusuario.setBorder(null);
+        txt_nombredeusuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txt_nombredeusuarioMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txt_nombredeusuarioMousePressed(evt);
+            }
+        });
         txt_nombredeusuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombredeusuarioActionPerformed(evt);
@@ -90,93 +101,94 @@ public class Login extends javax.swing.JFrame {
         jPasswordField1.setBackground(new java.awt.Color(255, 255, 255));
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPasswordField1.setForeground(new java.awt.Color(204, 204, 204));
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setText("********");
         jPasswordField1.setBorder(null);
+        jPasswordField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPasswordField1MousePressed(evt);
+            }
+        });
         fondo_blanco.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, -1, -1));
 
-        panel_ingresar.setBackground(new java.awt.Color(240, 0, 11));
-        panel_ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        moverpartesuperior.setBackground(new java.awt.Color(255, 255, 255));
+        moverpartesuperior.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                moverpartesuperiorMouseDragged(evt);
+            }
+        });
+        moverpartesuperior.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                moverpartesuperiorMousePressed(evt);
+            }
+        });
 
-        txt_ingresar.setBackground(new java.awt.Color(255, 255, 255));
-        txt_ingresar.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
-        txt_ingresar.setForeground(new java.awt.Color(255, 255, 255));
-        txt_ingresar.setText("INGRESAR");
+        jpanelParteSuperior.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout panel_ingresarLayout = new javax.swing.GroupLayout(panel_ingresar);
-        panel_ingresar.setLayout(panel_ingresarLayout);
-        panel_ingresarLayout.setHorizontalGroup(
-            panel_ingresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_ingresarLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(txt_ingresar)
+        btn_Xdesalir.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Xdesalir.setFont(new java.awt.Font("Roboto Light", 0, 24)); // NOI18N
+        btn_Xdesalir.setForeground(new java.awt.Color(0, 0, 0));
+        btn_Xdesalir.setText("X");
+        btn_Xdesalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Xdesalir.setPreferredSize(new java.awt.Dimension(40, 40));
+        btn_Xdesalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_XdesalirMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_XdesalirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_XdesalirMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpanelParteSuperiorLayout = new javax.swing.GroupLayout(jpanelParteSuperior);
+        jpanelParteSuperior.setLayout(jpanelParteSuperiorLayout);
+        jpanelParteSuperiorLayout.setHorizontalGroup(
+            jpanelParteSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpanelParteSuperiorLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(btn_Xdesalir, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
-        panel_ingresarLayout.setVerticalGroup(
-            panel_ingresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ingresarLayout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addComponent(txt_ingresar, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jpanelParteSuperiorLayout.setVerticalGroup(
+            jpanelParteSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpanelParteSuperiorLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Xdesalir, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        fondo_blanco.add(panel_ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 90, 30));
+        javax.swing.GroupLayout moverpartesuperiorLayout = new javax.swing.GroupLayout(moverpartesuperior);
+        moverpartesuperior.setLayout(moverpartesuperiorLayout);
+        moverpartesuperiorLayout.setHorizontalGroup(
+            moverpartesuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moverpartesuperiorLayout.createSequentialGroup()
+                .addComponent(jpanelParteSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 754, Short.MAX_VALUE))
+        );
+        moverpartesuperiorLayout.setVerticalGroup(
+            moverpartesuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moverpartesuperiorLayout.createSequentialGroup()
+                .addComponent(jpanelParteSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 3, Short.MAX_VALUE))
+        );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jPanel1MouseDragged(evt);
+        fondo_blanco.add(moverpartesuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 40));
+
+        btn_ingresar.setBackground(new java.awt.Color(240, 0, 11));
+        btn_ingresar.setFont(new java.awt.Font("Roboto Black", 1, 14)); // NOI18N
+        btn_ingresar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_ingresar.setText("INGRESAR");
+        btn_ingresar.setBorder(null);
+        btn_ingresar.setBorderPainted(false);
+        btn_ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ingresarActionPerformed(evt);
             }
         });
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel1MousePressed(evt);
-            }
-        });
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Roboto Light", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(240, 0, 11));
-        jLabel1.setText("X");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.setPreferredSize(new java.awt.Dimension(40, 40));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 15, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 746, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        fondo_blanco.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 40));
+        fondo_blanco.add(btn_ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 100, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -196,23 +208,77 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_nombredeusuarioActionPerformed
 
-    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+    private void moverpartesuperiorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moverpartesuperiorMousePressed
         // TODO add your handling code here:
         xMouse = evt.getX();
         yMouse = evt.getY();
-    }//GEN-LAST:event_jPanel1MousePressed
+    }//GEN-LAST:event_moverpartesuperiorMousePressed
 
-    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+    private void moverpartesuperiorMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moverpartesuperiorMouseDragged
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
-    }//GEN-LAST:event_jPanel1MouseDragged
+    }//GEN-LAST:event_moverpartesuperiorMouseDragged
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void btn_XdesalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XdesalirMouseClicked
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_btn_XdesalirMouseClicked
+
+    private void btn_XdesalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XdesalirMouseEntered
+        // TODO add your handling code here:
+        jpanelParteSuperior.setBackground(Color.red);
+        btn_Xdesalir.setForeground(Color.white);
+    }//GEN-LAST:event_btn_XdesalirMouseEntered
+
+    private void btn_XdesalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XdesalirMouseExited
+        // TODO add your handling code here:
+        jpanelParteSuperior.setBackground(Color.white);
+        btn_Xdesalir.setForeground(Color.black);
+
+    }//GEN-LAST:event_btn_XdesalirMouseExited
+
+    private void txt_nombredeusuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombredeusuarioMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nombredeusuarioMouseEntered
+
+    private void txt_nombredeusuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombredeusuarioMousePressed
+        // TODO add your handling code here:
+        if (txt_nombredeusuario.getText().equals("Ingrese su ID")){
+            txt_nombredeusuario.setText("");
+            txt_nombredeusuario.setForeground(Color.black);
+        }
+        if(String.valueOf(jPasswordField1.getPassword()).isEmpty()){
+            jPasswordField1.setText("********");
+            jPasswordField1.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_txt_nombredeusuarioMousePressed
+
+    private void jPasswordField1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPasswordField1MousePressed
+        // TODO add your handling code here:
+        if (String.valueOf(jPasswordField1.getPassword()).equals("********")){
+            jPasswordField1.setText("");
+            jPasswordField1.setForeground(Color.black); 
+        }
+        if(txt_nombredeusuario.getText().isEmpty()){
+            txt_nombredeusuario.setText("Ingrese su ID");
+            txt_nombredeusuario.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_jPasswordField1MousePressed
+
+    private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
+        
+        String clave = new String(jPasswordField1.getPassword());
+        
+        if(clave.equals("1234")){
+        Principal p1 = new Principal();
+        p1.setVisible(true);
+        this.dispose();
+        }else{
+            JOptionPane.showConfirmDialog(this, "Clave incorrecta");
+        }
+    }//GEN-LAST:event_btn_ingresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,18 +316,17 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btn_Xdesalir;
+    private javax.swing.JButton btn_ingresar;
     private javax.swing.JPanel fondo_blanco;
     private javax.swing.JLabel img_vote;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JPanel panel_ingresar;
+    private javax.swing.JPanel jpanelParteSuperior;
+    private javax.swing.JPanel moverpartesuperior;
     private javax.swing.JLabel text_iniciarsesion;
     private javax.swing.JLabel txt_contrasena;
-    private javax.swing.JLabel txt_ingresar;
     private javax.swing.JTextField txt_nombredeusuario;
     private javax.swing.JLabel txt_usuario;
     // End of variables declaration//GEN-END:variables
