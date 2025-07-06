@@ -1,12 +1,16 @@
 package login_sistema;
 
 import SistemaContarVotos.Eleccion;
+import SistemaContarVotos.GestionActas;
 import SistemaContarVotos.GestionCandidatos;
 import SistemaContarVotos.GestionElecciones;
 import SistemaContarVotos.GestionMesas;
 import javax.swing.JPanel;
+import vistaContent.ActasElectorales;
 import vistaContent.Candidatos;
+import vistaContent.ConteoVotos;
 import vistaContent.Elecciones;
+import vistaContent.Informes;
 import vistaContent.MesasElectorales;
 import vistaContent.MiembrosMesa;
 import vistaContent.Partidos;
@@ -21,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
     private GestionElecciones gestorElecciones = new GestionElecciones(100);
     private Eleccion[] eleccionesDisponibles;
     private GestionMesas gestorMesas = new GestionMesas(100);
+    private GestionActas gestorActas = new GestionActas(100);
 
     /**
      * Creates new form GestPartidosPoliticos
@@ -323,15 +328,22 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMiembrosMesa1ActionPerformed
 
     private void btnActasElectoralesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActasElectoralesActionPerformed
-        // TODO add your handling code here:
+
+        ActasElectorales actapanel = new ActasElectorales(gestorMesas, gestorActas);
+        ShowJPanel(actapanel);
     }//GEN-LAST:event_btnActasElectoralesActionPerformed
 
     private void btnConteoVotosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConteoVotosActionPerformed
-        // TODO add your handling code here:
+
+        ConteoVotos conteoPanel = new ConteoVotos(gestorActas);
+        ShowJPanel(conteoPanel);
     }//GEN-LAST:event_btnConteoVotosActionPerformed
 
     private void btnInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformesActionPerformed
         // TODO add your handling code here:
+       Informes informePanel = new Informes(gestorActas);
+        ShowJPanel(informePanel);
+
     }//GEN-LAST:event_btnInformesActionPerformed
 
     /**

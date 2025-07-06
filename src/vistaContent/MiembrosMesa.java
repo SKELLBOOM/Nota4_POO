@@ -33,7 +33,7 @@ public class MiembrosMesa extends javax.swing.JPanel {
         modelo = new DefaultTableModel(new Object[]{"Nombre", "Apellido", "Tipo", "Mesa"}, 0);
         tablaMiembros.setModel(modelo);
 
-        comboTipoMiembro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Presidente", "Secretario", "Vocal"}));
+        comboTipoMiembro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"presidente", "secretario", "vocal"}));
 
         cargarMesas();
     }
@@ -49,8 +49,38 @@ public class MiembrosMesa extends javax.swing.JPanel {
         initComponents();
         this.gestorMesas = gestorMesas;
         this.mesaSeleccionada = mesaSeleccionada;
-        
+        modelo = new DefaultTableModel(new Object[]{"Nombre", "Apellido", "Tipo", "Mesa"}, 0);
+    tablaMiembros.setModel(modelo);
+
+    comboTipoMiembro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"presidente", "secretario", "vocal"}));
+    comboMesaElectoral.removeAllItems();
+    comboMesaElectoral.addItem(mesaSeleccionada.getIdMesa());
+    comboMesaElectoral.setSelectedIndex(0);
+    
+    cargarMiembrosDeMesaSeleccionada();
+
     }
+    
+    private void cargarMiembrosDeMesaSeleccionada() {
+    if (mesaSeleccionada != null) {
+        modelo.setRowCount(0); // Limpiar la tabla antes de llenar
+
+        if (mesaSeleccionada.getPresidente() != null && !mesaSeleccionada.getPresidente().getNombres().isEmpty()) {
+            MiembroMesa m = mesaSeleccionada.getPresidente();
+            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "presidente", mesaSeleccionada.getIdMesa()});
+        }
+        if (mesaSeleccionada.getSecretario() != null && !mesaSeleccionada.getSecretario().getNombres().isEmpty()) {
+            MiembroMesa m = mesaSeleccionada.getSecretario();
+            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "secretario", mesaSeleccionada.getIdMesa()});
+        }
+        if (mesaSeleccionada.getVocal() != null && !mesaSeleccionada.getVocal().getNombres().isEmpty()) {
+            MiembroMesa m = mesaSeleccionada.getVocal();
+            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "vocal", mesaSeleccionada.getIdMesa()});
+        }
+    }
+}
+
+    
     
     private void limpiarCampos() {
     txtDigitarNombreMiembro.setText("");

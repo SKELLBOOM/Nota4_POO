@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
-import SistemaContarVotos.GestionPartidoPolitico;
-import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
-import javax.swing.JOptionPane;
+import SistemaContarVotos.Candidato;
+import SistemaContarVotos.GeneradorInformes;
+import SistemaContarVotos.GestionActas;
+import SistemaContarVotos.GestionMesas;
+import java.util.Map;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,17 +15,53 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Informes extends javax.swing.JPanel {
 
-    private GestionPartidoPolitico gestor = new GestionPartidoPolitico(100);
-
+    private GestionActas gestorActas;
+    private GestionMesas gestorMesas;
+    private DefaultTableModel modelo;
     /**
      * Creates new form Partidos
      */
-    public Informes() {
+    public Informes(GestionActas gestorActas) {
         initComponents();
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(new String[]{"Nombre", "Sigla", "Representante", "Símbolo"});
-        tablaPartidos.setModel(modelo);
+        this.gestorActas = gestorActas;
+
+        modelo = new DefaultTableModel(
+            new String[]{"Mesa", "Lugar", "Total Votantes", "Votos Emitidos", "Nulos", "Blancos", "Resultados"}, 0
+        );
+        tablaInforme.setModel(modelo);
+        cargarInforme();
     }
+    
+     private void cargarInforme() {
+        modelo.setRowCount(0);
+        for (GeneradorInformes.InformePorMesa informe : GeneradorInformes.generarInformeMesas(gestorActas)) {
+            String resumenResultados = generarResumenResultados(informe.getVotosPorCandidato());
+            Object[] fila = {
+                informe.getCodigoMesa(),
+                informe.getLugar(),
+                informe.getTotalVotantes(),
+                informe.getVotosEmitidos(),
+                informe.getVotosNulos(),
+                informe.getVotosBlancos(),
+                resumenResultados
+            };
+            modelo.addRow(fila);
+        }
+    }
+    
+         private String generarResumenResultados(Map<Candidato, Integer> votosPorCandidato) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Candidato, Integer> entry : votosPorCandidato.entrySet()) {
+            Candidato c = entry.getKey();
+            int votos = entry.getValue();
+            sb.append(c.getNombres()).append(" ").append(c.getApellidos())
+              .append(" = ").append(votos).append(", ");
+        }
+        if (sb.length() > 2) sb.setLength(sb.length() - 2); // quitar última coma
+        return sb.toString();
+    }
+     
+         
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,388 +73,121 @@ public class Informes extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaPartidos = new javax.swing.JTable();
         txtNombredelPartidoPolitico = new javax.swing.JLabel();
-        txt_nombre = new javax.swing.JTextField();
-        txtlogo = new javax.swing.JLabel();
-        txtdescripcion = new javax.swing.JTextField();
-        btnEliminar = new javax.swing.JButton();
-        btnAgregar = new javax.swing.JButton();
         txtregistrarunpartido = new javax.swing.JLabel();
-        txtDigitarsiglas = new javax.swing.JTextField();
-        txtSigla = new javax.swing.JLabel();
-        txtRepresentantelegal = new javax.swing.JLabel();
-        txtnombredelrepresentante = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        txtNombredelPartidoPolitico1 = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaInforme = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(550, 0));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setEnabled(false);
 
-        tablaPartidos.setBackground(new java.awt.Color(255, 255, 255));
-        tablaPartidos.setForeground(new java.awt.Color(0, 0, 0));
-        tablaPartidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Sigla", "Representate", "Simbolo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tablaPartidos);
-
         txtNombredelPartidoPolitico.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         txtNombredelPartidoPolitico.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombredelPartidoPolitico.setText("Nombre del partido politico");
-
-        txt_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        txt_nombre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txt_nombre.setForeground(new java.awt.Color(204, 204, 204));
-        txt_nombre.setText("Nombre ");
-        txt_nombre.setBorder(null);
-        txt_nombre.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txt_nombreMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txt_nombreMousePressed(evt);
-            }
-        });
-        txt_nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreActionPerformed(evt);
-            }
-        });
-
-        txtlogo.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtlogo.setForeground(new java.awt.Color(0, 0, 0));
-        txtlogo.setText("Logo /  Simbolo distintivo");
-
-        txtdescripcion.setBackground(new java.awt.Color(255, 255, 255));
-        txtdescripcion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtdescripcion.setForeground(new java.awt.Color(204, 204, 204));
-        txtdescripcion.setText("Descripción del logo");
-        txtdescripcion.setBorder(null);
-        txtdescripcion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtdescripcionMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtdescripcionMousePressed(evt);
-            }
-        });
-        txtdescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdescripcionActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
-        btnEliminar.setFont(new java.awt.Font("Roboto Black", 1, 12)); // NOI18N
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setBorder(null);
-        btnEliminar.setBorderPainted(false);
-        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
-        btnAgregar.setBackground(new java.awt.Color(255, 0, 51));
-        btnAgregar.setFont(new java.awt.Font("Roboto Black", 1, 12)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregar.setText("Agregar");
-        btnAgregar.setBorder(null);
-        btnAgregar.setBorderPainted(false);
-        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
+        txtNombredelPartidoPolitico.setText("Seleccionar Eleccion: ");
 
         txtregistrarunpartido.setFont(new java.awt.Font("Roboto Black", 1, 24)); // NOI18N
         txtregistrarunpartido.setForeground(new java.awt.Color(0, 0, 0));
-        txtregistrarunpartido.setText("REGISTRAR UN PARTIDO POLITICO");
+        txtregistrarunpartido.setText("INFORME");
 
-        txtDigitarsiglas.setBackground(new java.awt.Color(255, 255, 255));
-        txtDigitarsiglas.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtDigitarsiglas.setForeground(new java.awt.Color(204, 204, 204));
-        txtDigitarsiglas.setText("Digite las siglas");
-        txtDigitarsiglas.setBorder(null);
-        txtDigitarsiglas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtDigitarsiglasMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtDigitarsiglasMousePressed(evt);
-            }
-        });
-        txtDigitarsiglas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDigitarsiglasActionPerformed(evt);
-            }
-        });
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtSigla.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtSigla.setForeground(new java.awt.Color(0, 0, 0));
-        txtSigla.setText("Sigla");
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtRepresentantelegal.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtRepresentantelegal.setForeground(new java.awt.Color(0, 0, 0));
-        txtRepresentantelegal.setText("Representante legal");
+        txtNombredelPartidoPolitico1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        txtNombredelPartidoPolitico1.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombredelPartidoPolitico1.setText("Seleccionar Mesa Electoral: ");
 
-        txtnombredelrepresentante.setBackground(new java.awt.Color(255, 255, 255));
-        txtnombredelrepresentante.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtnombredelrepresentante.setForeground(new java.awt.Color(204, 204, 204));
-        txtnombredelrepresentante.setText("Nombre del representante legal");
-        txtnombredelrepresentante.setBorder(null);
-        txtnombredelrepresentante.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtnombredelrepresentanteMouseEntered(evt);
+        tablaInforme.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Mesa", "Lugar", "Total Votantes", "Votos Emitidos", "Nulos", "Blancos", "Resultados"
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtnombredelrepresentanteMousePressed(evt);
-            }
-        });
-        txtnombredelrepresentante.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtnombredelrepresentanteActionPerformed(evt);
-            }
-        });
+        ));
+        jScrollPane1.setViewportView(tablaInforme);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtregistrarunpartido, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtlogo))
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtregistrarunpartido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 52, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSigla)
-                    .addComponent(txtRepresentantelegal)
-                    .addComponent(txtNombredelPartidoPolitico)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtdescripcion, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
-                    .addComponent(txtnombredelrepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDigitarsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtNombredelPartidoPolitico1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSeparator5)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtNombredelPartidoPolitico)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSeparator1)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(40, 40, 40))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(txtregistrarunpartido)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(txtNombredelPartidoPolitico)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombredelPartidoPolitico)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSigla)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombredelPartidoPolitico1)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDigitarsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRepresentantelegal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtnombredelrepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtlogo))
+                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addComponent(txtregistrarunpartido)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 310, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, -1));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtDigitarsiglasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDigitarsiglasMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasMouseEntered
-
-    private void txtDigitarsiglasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDigitarsiglasMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasMousePressed
-
-    private void txtDigitarsiglasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarsiglasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasActionPerformed
-
-    private void txt_nombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombreMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreMouseEntered
-
-    private void txt_nombreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombreMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreMousePressed
-
-    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreActionPerformed
-
-    private void txtnombredelrepresentanteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteMouseEntered
-
-    private void txtnombredelrepresentanteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteMousePressed
-
-    private void txtnombredelrepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteActionPerformed
-
-    private void txtdescripcionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtdescripcionMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionMouseEntered
-
-    private void txtdescripcionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtdescripcionMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionMousePressed
-
-    private void txtdescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdescripcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String nombre = txt_nombre.getText().trim();
-        String sigla = txtDigitarsiglas.getText().trim();
-        String representante = txtnombredelrepresentante.getText().trim();
-        String simbolo = txtdescripcion.getText().trim();
-
-        if (nombre.isEmpty() || sigla.isEmpty() || representante.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
-            return;
-        }
-
-        PartidoPolitico nuevo = new PartidoPolitico(nombre, sigla, representante, simbolo);
-        boolean registrado = gestor.agregarPartido(nuevo);
-
-        if (registrado) {
-            DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
-            modelo.addRow(new Object[]{nombre, sigla, representante, simbolo});
-            txt_nombre.setText("");
-            txtDigitarsiglas.setText("");
-            txtnombredelrepresentante.setText("");
-            txtdescripcion.setText("");
-
-          
-
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo registrar el partido. Capacidad máxima alcanzada.");
-        }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int filaSeleccionada = tablaPartidos.getSelectedRow();
-
-    if (filaSeleccionada >= 0) {
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Estás seguro de eliminar el partido seleccionado?",
-                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            
-            DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
-            modelo.removeRow(filaSeleccionada);
-
-            
-            boolean eliminado = gestor.eliminarPartido(filaSeleccionada);
-
-            if (!eliminado) {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar del arreglo.");
-            }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
-    }
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable tablaPartidos;
-    private javax.swing.JTextField txtDigitarsiglas;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JTable tablaInforme;
     private javax.swing.JLabel txtNombredelPartidoPolitico;
-    private javax.swing.JLabel txtRepresentantelegal;
-    private javax.swing.JLabel txtSigla;
-    private javax.swing.JTextField txt_nombre;
-    private javax.swing.JTextField txtdescripcion;
-    private javax.swing.JLabel txtlogo;
-    private javax.swing.JTextField txtnombredelrepresentante;
+    private javax.swing.JLabel txtNombredelPartidoPolitico1;
     private javax.swing.JLabel txtregistrarunpartido;
     // End of variables declaration//GEN-END:variables
 }

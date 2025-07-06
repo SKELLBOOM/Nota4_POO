@@ -4,7 +4,11 @@
  */
 package vistaContent;
 
+import SistemaContarVotos.ActaElectoral;
+import SistemaContarVotos.GestionActas;
+import SistemaContarVotos.GestionMesas;
 import SistemaContarVotos.GestionPartidoPolitico;
+import SistemaContarVotos.MesaElectoral;
 import SistemaContarVotos.PartidoPolitico;
 import java.awt.Color;
 import javax.swing.JOptionPane;
@@ -16,17 +20,21 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ActasElectorales extends javax.swing.JPanel {
 
-    private GestionPartidoPolitico gestor = new GestionPartidoPolitico(100);
+    private GestionMesas gestorMesas;
+    private GestionActas gestorActas;
 
     /**
      * Creates new form Partidos
      */
     public ActasElectorales() {
         initComponents();
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(new String[]{"Nombre", "Sigla", "Representante", "Símbolo"});
-        tablaPartidos.setModel(modelo);
     }
+    public ActasElectorales(GestionMesas gestorMesas, GestionActas gestorActas) {
+    initComponents();
+    this.gestorMesas = gestorMesas;
+    this.gestorActas = gestorActas;
+
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,388 +46,490 @@ public class ActasElectorales extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaPartidos = new javax.swing.JTable();
-        txtNombredelPartidoPolitico = new javax.swing.JLabel();
-        txt_nombre = new javax.swing.JTextField();
-        txtlogo = new javax.swing.JLabel();
-        txtdescripcion = new javax.swing.JTextField();
-        btnEliminar = new javax.swing.JButton();
-        btnAgregar = new javax.swing.JButton();
-        txtregistrarunpartido = new javax.swing.JLabel();
-        txtDigitarsiglas = new javax.swing.JTextField();
-        txtSigla = new javax.swing.JLabel();
-        txtRepresentantelegal = new javax.swing.JLabel();
-        txtnombredelrepresentante = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
+        txtDigitarTitulo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtDigitarFecha = new javax.swing.JTextField();
+        jSeparator5 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        txtDigitarLugar = new javax.swing.JTextField();
+        jSeparator6 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
+        txtDigitarHora = new javax.swing.JTextField();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        txtDigitarActaUnico = new javax.swing.JTextField();
+        jSeparator8 = new javax.swing.JSeparator();
+        jSeparator9 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        combMesaElectoralActa = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txtDigitarMiembro = new javax.swing.JTextField();
+        jSeparator11 = new javax.swing.JSeparator();
+        jLabel10 = new javax.swing.JLabel();
+        txtDigitarNroRegistrados = new javax.swing.JTextField();
+        jSeparator14 = new javax.swing.JSeparator();
+        jLabel11 = new javax.swing.JLabel();
+        txtDigitarEfectivos = new javax.swing.JTextField();
+        jSeparator15 = new javax.swing.JSeparator();
+        jSeparator16 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
+        txtResultadoCandidato = new javax.swing.JTextField();
+        jSeparator17 = new javax.swing.JSeparator();
+        jLabel13 = new javax.swing.JLabel();
+        txtDigitarVotosBlanco = new javax.swing.JTextField();
+        jSeparator18 = new javax.swing.JSeparator();
+        jLabel14 = new javax.swing.JLabel();
+        txtDigitarVotosNulo = new javax.swing.JTextField();
+        jSeparator19 = new javax.swing.JSeparator();
+        jLabel15 = new javax.swing.JLabel();
+        txtDigitarObservacion = new javax.swing.JTextField();
+        jSeparator20 = new javax.swing.JSeparator();
+        jSeparator21 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
+        txtDigitarFirma = new javax.swing.JTextField();
+        jSeparator22 = new javax.swing.JSeparator();
+        jLabel17 = new javax.swing.JLabel();
+        txtDigitarSello = new javax.swing.JTextField();
+        btnRegistrarActa = new javax.swing.JToggleButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(550, 0));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.setEnabled(false);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 34, 106, 10));
 
-        tablaPartidos.setBackground(new java.awt.Color(255, 255, 255));
-        tablaPartidos.setForeground(new java.awt.Color(0, 0, 0));
-        tablaPartidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Sigla", "Representate", "Simbolo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tablaPartidos);
-
-        txtNombredelPartidoPolitico.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtNombredelPartidoPolitico.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombredelPartidoPolitico.setText("Nombre del partido politico");
-
-        txt_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        txt_nombre.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txt_nombre.setForeground(new java.awt.Color(204, 204, 204));
-        txt_nombre.setText("Nombre ");
-        txt_nombre.setBorder(null);
-        txt_nombre.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txt_nombreMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txt_nombreMousePressed(evt);
-            }
-        });
-        txt_nombre.addActionListener(new java.awt.event.ActionListener() {
+        txtDigitarTitulo.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarTitulo.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarTitulo.setText("TItulo");
+        txtDigitarTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreActionPerformed(evt);
+                txtDigitarTituloActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 6, -1, -1));
 
-        txtlogo.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtlogo.setForeground(new java.awt.Color(0, 0, 0));
-        txtlogo.setText("Logo /  Simbolo distintivo");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Titulo");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 11, -1, -1));
 
-        txtdescripcion.setBackground(new java.awt.Color(255, 255, 255));
-        txtdescripcion.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtdescripcion.setForeground(new java.awt.Color(204, 204, 204));
-        txtdescripcion.setText("Descripción del logo");
-        txtdescripcion.setBorder(null);
-        txtdescripcion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtdescripcionMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtdescripcionMousePressed(evt);
-            }
-        });
-        txtdescripcion.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Fecha");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 11, -1, -1));
+
+        txtDigitarFecha.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarFecha.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarFecha.setText("Fecha");
+        txtDigitarFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdescripcionActionPerformed(evt);
+                txtDigitarFechaActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 6, -1, -1));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 34, 64, 10));
 
-        btnEliminar.setBackground(new java.awt.Color(255, 0, 51));
-        btnEliminar.setFont(new java.awt.Font("Roboto Black", 1, 12)); // NOI18N
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setBorder(null);
-        btnEliminar.setBorderPainted(false);
-        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Lugar");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 56, -1, -1));
+
+        txtDigitarLugar.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarLugar.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarLugar.setText("Lugar");
+        txtDigitarLugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                txtDigitarLugarActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 50, -1, -1));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 79, 106, 10));
 
-        btnAgregar.setBackground(new java.awt.Color(255, 0, 51));
-        btnAgregar.setFont(new java.awt.Font("Roboto Black", 1, 12)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregar.setText("Agregar");
-        btnAgregar.setBorder(null);
-        btnAgregar.setBorderPainted(false);
-        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Hora");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+
+        txtDigitarHora.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarHora.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarHora.setText("Hora");
+        txtDigitarHora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                txtDigitarHoraActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, -1, -1));
+        jPanel1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, 64, 10));
 
-        txtregistrarunpartido.setFont(new java.awt.Font("Roboto Black", 1, 24)); // NOI18N
-        txtregistrarunpartido.setForeground(new java.awt.Color(0, 0, 0));
-        txtregistrarunpartido.setText("REGISTRAR UN PARTIDO POLITICO");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("N° Acta");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, -1, -1));
 
-        txtDigitarsiglas.setBackground(new java.awt.Color(255, 255, 255));
-        txtDigitarsiglas.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtDigitarsiglas.setForeground(new java.awt.Color(204, 204, 204));
-        txtDigitarsiglas.setText("Digite las siglas");
-        txtDigitarsiglas.setBorder(null);
-        txtDigitarsiglas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtDigitarsiglasMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtDigitarsiglasMousePressed(evt);
-            }
-        });
-        txtDigitarsiglas.addActionListener(new java.awt.event.ActionListener() {
+        txtDigitarActaUnico.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarActaUnico.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarActaUnico.setText("N°Acta");
+        txtDigitarActaUnico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDigitarsiglasActionPerformed(evt);
+                txtDigitarActaUnicoActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarActaUnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 6, -1, -1));
+        jPanel1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(481, 34, 64, 10));
+        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 95, 539, 10));
 
-        txtSigla.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtSigla.setForeground(new java.awt.Color(0, 0, 0));
-        txtSigla.setText("Sigla");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Mesa Electoral");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 116, -1, -1));
+        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 142, 72, 10));
 
-        txtRepresentantelegal.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtRepresentantelegal.setForeground(new java.awt.Color(0, 0, 0));
-        txtRepresentantelegal.setText("Representante legal");
+        combMesaElectoralActa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(combMesaElectoralActa, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 114, -1, -1));
 
-        txtnombredelrepresentante.setBackground(new java.awt.Color(255, 255, 255));
-        txtnombredelrepresentante.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtnombredelrepresentante.setForeground(new java.awt.Color(204, 204, 204));
-        txtnombredelrepresentante.setText("Nombre del representante legal");
-        txtnombredelrepresentante.setBorder(null);
-        txtnombredelrepresentante.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtnombredelrepresentanteMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtnombredelrepresentanteMousePressed(evt);
-            }
-        });
-        txtnombredelrepresentante.addActionListener(new java.awt.event.ActionListener() {
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Miembro:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 203, -1, -1));
+
+        txtDigitarMiembro.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarMiembro.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarMiembro.setText("Digitar ");
+        txtDigitarMiembro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtnombredelrepresentanteActionPerformed(evt);
+                txtDigitarMiembroActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDigitarMiembro, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 198, -1, -1));
+        jPanel1.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 226, 64, 10));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtregistrarunpartido, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtlogo))
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 52, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSigla)
-                    .addComponent(txtRepresentantelegal)
-                    .addComponent(txtNombredelPartidoPolitico)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtdescripcion, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
-                    .addComponent(txtnombredelrepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDigitarsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(txtregistrarunpartido)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(txtNombredelPartidoPolitico)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSigla)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDigitarsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRepresentantelegal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtnombredelrepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtlogo))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("Votantes Registrados:");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 119, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        txtDigitarNroRegistrados.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarNroRegistrados.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarNroRegistrados.setText("N°");
+        txtDigitarNroRegistrados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarNroRegistradosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarNroRegistrados, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 114, -1, -1));
+        jPanel1.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 142, 64, 10));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("Votantes Efectivos:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 159, -1, -1));
+
+        txtDigitarEfectivos.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarEfectivos.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarEfectivos.setText("N°");
+        txtDigitarEfectivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarEfectivosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarEfectivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 154, -1, -1));
+        jPanel1.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 182, 64, 10));
+        jPanel1.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 242, 539, 10));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Resultado por candidato:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, -1, -1));
+
+        txtResultadoCandidato.setBackground(new java.awt.Color(255, 255, 255));
+        txtResultadoCandidato.setForeground(new java.awt.Color(0, 0, 0));
+        txtResultadoCandidato.setText("Digitar");
+        txtResultadoCandidato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtResultadoCandidatoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtResultadoCandidato, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, -1, -1));
+        jPanel1.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 64, 10));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Votos Blanco: ");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
+
+        txtDigitarVotosBlanco.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarVotosBlanco.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarVotosBlanco.setText("Digitar ");
+        txtDigitarVotosBlanco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarVotosBlancoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarVotosBlanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, -1, -1));
+        jPanel1.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 64, 10));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Votos Nulo: ");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+
+        txtDigitarVotosNulo.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarVotosNulo.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarVotosNulo.setText("Digitar ");
+        txtDigitarVotosNulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarVotosNuloActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarVotosNulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
+        jPanel1.add(jSeparator19, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 64, 10));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("Observacion:");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 260, -1, -1));
+
+        txtDigitarObservacion.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarObservacion.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarObservacion.setText("Digitar ");
+        txtDigitarObservacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarObservacionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarObservacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 258, 175, -1));
+        jPanel1.add(jSeparator20, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 286, 175, 10));
+        jPanel1.add(jSeparator21, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 350, 64, 10));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel16.setText("Firma:");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, -1, -1));
+
+        txtDigitarFirma.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarFirma.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarFirma.setText("Digitar");
+        txtDigitarFirma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarFirmaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarFirma, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, -1, -1));
+        jPanel1.add(jSeparator22, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, 64, 10));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Sello Oficial:");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, -1, -1));
+
+        txtDigitarSello.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigitarSello.setForeground(new java.awt.Color(0, 0, 0));
+        txtDigitarSello.setText("Digitar");
+        txtDigitarSello.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDigitarSelloActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDigitarSello, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 320, -1, -1));
+
+        btnRegistrarActa.setBackground(new java.awt.Color(255, 0, 0));
+        btnRegistrarActa.setFont(new java.awt.Font("Roboto Black", 1, 14)); // NOI18N
+        btnRegistrarActa.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarActa.setText("Registrar Acta");
+        btnRegistrarActa.setBorder(null);
+        btnRegistrarActa.setBorderPainted(false);
+        btnRegistrarActa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrarActa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegistrarActa, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 60, 120, 20));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDigitarsiglasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDigitarsiglasMouseEntered
+    private void txtDigitarTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarTituloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasMouseEntered
+    }//GEN-LAST:event_txtDigitarTituloActionPerformed
 
-    private void txtDigitarsiglasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDigitarsiglasMousePressed
+    private void txtDigitarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarFechaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasMousePressed
+    }//GEN-LAST:event_txtDigitarFechaActionPerformed
 
-    private void txtDigitarsiglasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarsiglasActionPerformed
+    private void txtDigitarLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarLugarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigitarsiglasActionPerformed
+    }//GEN-LAST:event_txtDigitarLugarActionPerformed
 
-    private void txt_nombreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombreMouseEntered
+    private void txtDigitarHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarHoraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreMouseEntered
+    }//GEN-LAST:event_txtDigitarHoraActionPerformed
 
-    private void txt_nombreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_nombreMousePressed
+    private void txtDigitarActaUnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarActaUnicoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreMousePressed
+    }//GEN-LAST:event_txtDigitarActaUnicoActionPerformed
 
-    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
+    private void txtDigitarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarMiembroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreActionPerformed
+    }//GEN-LAST:event_txtDigitarMiembroActionPerformed
 
-    private void txtnombredelrepresentanteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteMouseEntered
+    private void txtDigitarNroRegistradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarNroRegistradosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteMouseEntered
+    }//GEN-LAST:event_txtDigitarNroRegistradosActionPerformed
 
-    private void txtnombredelrepresentanteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteMousePressed
+    private void txtDigitarEfectivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarEfectivosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteMousePressed
+    }//GEN-LAST:event_txtDigitarEfectivosActionPerformed
 
-    private void txtnombredelrepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombredelrepresentanteActionPerformed
+    private void txtResultadoCandidatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResultadoCandidatoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtnombredelrepresentanteActionPerformed
+    }//GEN-LAST:event_txtResultadoCandidatoActionPerformed
 
-    private void txtdescripcionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtdescripcionMouseEntered
+    private void txtDigitarVotosBlancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarVotosBlancoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionMouseEntered
+    }//GEN-LAST:event_txtDigitarVotosBlancoActionPerformed
 
-    private void txtdescripcionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtdescripcionMousePressed
+    private void txtDigitarVotosNuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarVotosNuloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionMousePressed
+    }//GEN-LAST:event_txtDigitarVotosNuloActionPerformed
 
-    private void txtdescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdescripcionActionPerformed
+    private void txtDigitarObservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarObservacionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtdescripcionActionPerformed
+    }//GEN-LAST:event_txtDigitarObservacionActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String nombre = txt_nombre.getText().trim();
-        String sigla = txtDigitarsiglas.getText().trim();
-        String representante = txtnombredelrepresentante.getText().trim();
-        String simbolo = txtdescripcion.getText().trim();
+    private void txtDigitarFirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarFirmaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDigitarFirmaActionPerformed
 
-        if (nombre.isEmpty() || sigla.isEmpty() || representante.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
-            return;
-        }
+    private void txtDigitarSelloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitarSelloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDigitarSelloActionPerformed
 
-        PartidoPolitico nuevo = new PartidoPolitico(nombre, sigla, representante, simbolo);
-        boolean registrado = gestor.agregarPartido(nuevo);
+    private void btnRegistrarActaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActaActionPerformed
+        // TODO add your handling code here:
+        try {
+            String titulo = txtDigitarTitulo.getText().trim();
+            String fecha = txtDigitarFecha.getText().trim();
+            String hora = txtDigitarHora.getText().trim();
+            String lugar = txtDigitarLugar.getText().trim();
+            String idMesa = (String) combMesaElectoralActa.getSelectedItem();
+            String miembros = txtDigitarMiembro.getText().trim();
+            int totalVotantes = Integer.parseInt(txtDigitarNroRegistrados.getText().trim());
+            int totalEfectivos = Integer.parseInt(txtDigitarEfectivos.getText().trim());
+            int blancos = Integer.parseInt(txtDigitarVotosBlanco.getText().trim());
+            int nulos = Integer.parseInt(txtDigitarVotosNulo.getText().trim());
+            String observaciones = txtDigitarObservacion.getText().trim();
+            String firmas = txtDigitarFirma.getText().trim();
+            String sello = txtDigitarSello.getText().trim();
+            String numeroActa = txtDigitarActaUnico.getText().trim();
 
-        if (registrado) {
-            DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
-            modelo.addRow(new Object[]{nombre, sigla, representante, simbolo});
-            txt_nombre.setText("");
-            txtDigitarsiglas.setText("");
-            txtnombredelrepresentante.setText("");
-            txtdescripcion.setText("");
-
-          
-
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo registrar el partido. Capacidad máxima alcanzada.");
-        }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int filaSeleccionada = tablaPartidos.getSelectedRow();
-
-    if (filaSeleccionada >= 0) {
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Estás seguro de eliminar el partido seleccionado?",
-                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            
-            DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
-            modelo.removeRow(filaSeleccionada);
-
-            
-            boolean eliminado = gestor.eliminarPartido(filaSeleccionada);
-
-            if (!eliminado) {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar del arreglo.");
+            MesaElectoral mesaSeleccionada = null;
+            for (MesaElectoral m : gestorMesas.getMesas()) {
+                if (m != null && m.getIdMesa().equals(idMesa)) {
+                    mesaSeleccionada = m;
+                    break;
+                }
             }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
-    }
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
+            if (mesaSeleccionada == null) {
+                JOptionPane.showMessageDialog(this, "Mesa electoral no encontrada.");
+                return;
+            }
+
+            ActaElectoral acta = new ActaElectoral(
+                    numeroActa, titulo, hora, fecha, lugar, mesaSeleccionada,
+                    totalVotantes, totalEfectivos, nulos, blancos,
+                    firmas, sello, observaciones, 0
+            );
+
+            gestorActas.registrarActa(acta);
+
+            JOptionPane.showMessageDialog(this, "Acta registrada exitosamente.");
+            limpiarCampos();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Verifica que los campos numéricos tengan valores válidos.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al registrar el acta: " + e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_btnRegistrarActaActionPerformed
+
+    private void limpiarCampos() {
+        txtDigitarTitulo.setText("");
+        txtDigitarFecha.setText("");
+        txtDigitarHora.setText("");
+        txtDigitarLugar.setText("");
+        txtDigitarMiembro.setText("");
+        txtDigitarNroRegistrados.setText("");
+        txtDigitarEfectivos.setText("");
+        txtDigitarVotosBlanco.setText("");
+        txtDigitarVotosNulo.setText("");
+        txtDigitarObservacion.setText("");
+        txtDigitarFirma.setText("");
+        txtDigitarSello.setText("");
+        txtDigitarActaUnico.setText("");
+        combMesaElectoralActa.setSelectedIndex(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JToggleButton btnRegistrarActa;
+    private javax.swing.JComboBox<String> combMesaElectoralActa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
+    private javax.swing.JSeparator jSeparator19;
+    private javax.swing.JSeparator jSeparator20;
+    private javax.swing.JSeparator jSeparator21;
+    private javax.swing.JSeparator jSeparator22;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable tablaPartidos;
-    private javax.swing.JTextField txtDigitarsiglas;
-    private javax.swing.JLabel txtNombredelPartidoPolitico;
-    private javax.swing.JLabel txtRepresentantelegal;
-    private javax.swing.JLabel txtSigla;
-    private javax.swing.JTextField txt_nombre;
-    private javax.swing.JTextField txtdescripcion;
-    private javax.swing.JLabel txtlogo;
-    private javax.swing.JTextField txtnombredelrepresentante;
-    private javax.swing.JLabel txtregistrarunpartido;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JTextField txtDigitarActaUnico;
+    private javax.swing.JTextField txtDigitarEfectivos;
+    private javax.swing.JTextField txtDigitarFecha;
+    private javax.swing.JTextField txtDigitarFirma;
+    private javax.swing.JTextField txtDigitarHora;
+    private javax.swing.JTextField txtDigitarLugar;
+    private javax.swing.JTextField txtDigitarMiembro;
+    private javax.swing.JTextField txtDigitarNroRegistrados;
+    private javax.swing.JTextField txtDigitarObservacion;
+    private javax.swing.JTextField txtDigitarSello;
+    private javax.swing.JTextField txtDigitarTitulo;
+    private javax.swing.JTextField txtDigitarVotosBlanco;
+    private javax.swing.JTextField txtDigitarVotosNulo;
+    private javax.swing.JTextField txtResultadoCandidato;
     // End of variables declaration//GEN-END:variables
 }

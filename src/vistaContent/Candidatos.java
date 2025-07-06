@@ -60,7 +60,7 @@ public class Candidatos extends javax.swing.JPanel {
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
-        txtPartidoPolitico = new javax.swing.JTextField();
+        comboPartidoPolitico = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -196,24 +196,7 @@ public class Candidatos extends javax.swing.JPanel {
         txtElegirPartido.setForeground(new java.awt.Color(0, 0, 0));
         txtElegirPartido.setText("Partido Politico");
 
-        txtPartidoPolitico.setBackground(new java.awt.Color(255, 255, 255));
-        txtPartidoPolitico.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtPartidoPolitico.setForeground(new java.awt.Color(204, 204, 204));
-        txtPartidoPolitico.setText("Nombre");
-        txtPartidoPolitico.setBorder(null);
-        txtPartidoPolitico.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtPartidoPoliticoMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtPartidoPoliticoMousePressed(evt);
-            }
-        });
-        txtPartidoPolitico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPartidoPoliticoActionPerformed(evt);
-            }
-        });
+        comboPartidoPolitico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -230,7 +213,7 @@ public class Candidatos extends javax.swing.JPanel {
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtElegirPartido)
-                            .addComponent(txtPartidoPolitico, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboPartidoPolitico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -281,11 +264,10 @@ public class Candidatos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtPartidoPolitico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboPartidoPolitico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -395,22 +377,11 @@ public class Candidatos extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtPartidoPoliticoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPartidoPoliticoMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPartidoPoliticoMouseEntered
-
-    private void txtPartidoPoliticoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPartidoPoliticoMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPartidoPoliticoMousePressed
-
-    private void txtPartidoPoliticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPartidoPoliticoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPartidoPoliticoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JComboBox<String> comboPartidoPolitico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -425,7 +396,6 @@ public class Candidatos extends javax.swing.JPanel {
     private javax.swing.JLabel txtElegirPartido;
     private javax.swing.JTextField txtNombreCandidato;
     private javax.swing.JLabel txtNombreP;
-    private javax.swing.JTextField txtPartidoPolitico;
     private javax.swing.JLabel txtregistrarunCANDIDATO;
     // End of variables declaration//GEN-END:variables
 }
