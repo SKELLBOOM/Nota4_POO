@@ -1,15 +1,13 @@
-
 package SistemaContarVotos;
 
-
 public class Candidato {
-    
+
     private String nombres;
     private String apellidos;
-    private int dni;
+    private String dni;
     private PartidoPolitico partido;
 
-    public Candidato(String nombres, String apellidos, int dni, PartidoPolitico partido) {
+    public Candidato(String nombres, String apellidos, String dni, PartidoPolitico partido) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.dni = dni;
@@ -32,11 +30,11 @@ public class Candidato {
         this.apellidos = apellidos;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
@@ -46,5 +44,10 @@ public class Candidato {
 
     public void setPartido(PartidoPolitico partido) {
         this.partido = partido;
+    }
+
+    @Override
+    public String toString() {
+        return nombres + " " + apellidos;
     }
 }

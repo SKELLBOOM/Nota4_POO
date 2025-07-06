@@ -1,104 +1,84 @@
-
 package SistemaContarVotos;
 
 public class ActaElectoral {
+
     private String numeroActa;
+    private String titulo;
+    private String hora;
     private String fecha;
     private String lugar;
     private MesaElectoral mesa;
-    private int totalVotantes;
+    private int votantesRegistrados;
     private int votosEmitidos;
     private int votosNulos;
     private int votosBlanco;
-    private Candidato[] candidatos;
-    private int[] votosPorCandidato;
+    private String firmas;
+    private String sello;
+    private String observaciones;
+    private Resultado[] resultado;
+    private int contadorResultados;
 
-    public ActaElectoral(String numeroActa, String fecha, String lugar, MesaElectoral mesa, Candidato[] candidatos) {
+    public ActaElectoral(String numeroActa, String titulo,
+            String hora, String fecha, String lugar, MesaElectoral mesa,
+            int votantesRegistrados, int votosEmitidos, int votosNulos, int votosBlanco,
+            String firmas, String sello, String observaciones, int capacidadResultados) {
+
         this.numeroActa = numeroActa;
+        this.titulo = titulo;
+        this.hora = hora;
         this.fecha = fecha;
         this.lugar = lugar;
         this.mesa = mesa;
-        this.candidatos = candidatos;
-        this.votosPorCandidato = new int[candidatos.length];
+        this.votantesRegistrados = votantesRegistrados;
+        this.votosEmitidos = votosEmitidos;
+        this.votosNulos = votosNulos;
+        this.votosBlanco = votosBlanco;
+        this.firmas = firmas;
+        this.sello = sello;
+        this.observaciones = observaciones;
+        this.resultado = new Resultado[capacidadResultados];
+        this.contadorResultados = 0;
     }
 
-    public void registrarVoto(int indiceCandidato, int cantidad) {
-        if (indiceCandidato >= 0 && indiceCandidato < votosPorCandidato.length) {
-            votosPorCandidato[indiceCandidato] += cantidad;
+    public boolean agregarResultado(Resultado rc) {
+        if (contadorResultados < resultado.length) {
+            resultado[contadorResultados] = rc;
+            contadorResultados++;
+            return true;
         }
+        return false;
     }
 
-    // Getters y Setters
     public String getNumeroActa() {
         return numeroActa;
     }
 
-    public void setNumeroActa(String numeroActa) {
-        this.numeroActa = numeroActa;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public int getVotantesRegistrados() {
+        return votantesRegistrados;
     }
 
     public String getLugar() {
         return lugar;
     }
-
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
-    }
-
+    
     public MesaElectoral getMesa() {
         return mesa;
-    }
-
-    public void setMesa(MesaElectoral mesa) {
-        this.mesa = mesa;
-    }
-
-    public int getTotalVotantes() {
-        return totalVotantes;
-    }
-
-    public void setTotalVotantes(int totalVotantes) {
-        this.totalVotantes = totalVotantes;
-    }
-
-    public int getVotosEmitidos() {
-        return votosEmitidos;
-    }
-
-    public void setVotosEmitidos(int votosEmitidos) {
-        this.votosEmitidos = votosEmitidos;
-    }
-
-    public int getVotosNulos() {
-        return votosNulos;
-    }
-
-    public void setVotosNulos(int votosNulos) {
-        this.votosNulos = votosNulos;
     }
 
     public int getVotosBlanco() {
         return votosBlanco;
     }
 
-    public void setVotosBlanco(int votosBlanco) {
-        this.votosBlanco = votosBlanco;
+    public int getVotosNulos() {
+        return votosNulos;
     }
 
-    public Candidato[] getCandidatos() {
-        return candidatos;
+    public Resultado[] getResultados() {
+        Resultado[] copia = new Resultado[contadorResultados];
+        for (int i = 0; i < contadorResultados; i++) {
+            copia[i] = resultado[i];
+        }
+        return copia;
     }
 
-    public int[] getVotosPorCandidato() {
-        return votosPorCandidato;
-    }
-    
 }

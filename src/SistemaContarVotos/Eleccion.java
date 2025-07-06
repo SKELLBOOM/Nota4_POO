@@ -1,48 +1,26 @@
-
 package SistemaContarVotos;
 
-
 public class Eleccion {
+
     private String tipo;
     private String fecha;
     private Candidato[] candidatos;
-    private MesaElectoral[] mesas;
-    private ActaElectoral[] actas;
-    private int contadorCandidatos;
-    private int contadorMesas;
-    private int contadorActas;
+    private int cantidadCandidatos;
 
-    public Eleccion(String tipo, String fecha, int maxCandidatos, int maxMesas, int maxActas) {
+    public Eleccion(String tipo, String fecha, int capacidadMaximaCandidatos) {
         this.tipo = tipo;
         this.fecha = fecha;
-        this.candidatos = new Candidato[maxCandidatos];
-        this.mesas = new MesaElectoral[maxMesas];
-        this.actas = new ActaElectoral[maxActas];
-        this.contadorCandidatos = 0;
-        this.contadorMesas = 0;
-        this.contadorActas = 0;
+        this.candidatos = new Candidato[capacidadMaximaCandidatos];
+        this.cantidadCandidatos = 0;
     }
 
-    public void agregarCandidato(Candidato c) {
-        if (contadorCandidatos < candidatos.length) {
-            candidatos[contadorCandidatos++] = c;
+    public boolean agregarCandidato(Candidato c) {
+        if (cantidadCandidatos < candidatos.length) {
+            candidatos[cantidadCandidatos] = c;
+            cantidadCandidatos++;
+            return true;
         }
-    }
-
-    public void agregarMesa(MesaElectoral m) {
-        if (contadorMesas < mesas.length) {
-            mesas[contadorMesas++] = m;
-        }
-    }
-
-    public void agregarActa(ActaElectoral a) {
-        if (contadorActas < actas.length) {
-            actas[contadorActas++] = a;
-        }
-    }
-
-    public void contarVotos() {
-        System.out.println("Conteo de votos realizado.");
+        return false;
     }
 
     public String getTipo() {
@@ -62,15 +40,14 @@ public class Eleccion {
     }
 
     public Candidato[] getCandidatos() {
-        return candidatos;
+        Candidato[] copia = new Candidato[cantidadCandidatos];
+        for (int i = 0; i < cantidadCandidatos; i++) {
+            copia[i] = candidatos[i];
+        }
+        return copia;
     }
 
-    public MesaElectoral[] getMesas() {
-        return mesas;
+    public int getCantidadCandidatos() {
+        return cantidadCandidatos;
     }
-
-    public ActaElectoral[] getActas() {
-        return actas;
-    }
-    
 }
