@@ -5,6 +5,7 @@ import SistemaContarVotos.GestionActas;
 import SistemaContarVotos.GestionCandidatos;
 import SistemaContarVotos.GestionElecciones;
 import SistemaContarVotos.GestionMesas;
+import SistemaContarVotos.GestionPartidoPolitico;
 import javax.swing.JPanel;
 import vistaContent.ActasElectorales;
 import vistaContent.Candidatos;
@@ -21,6 +22,7 @@ import vistaContent.Partidos;
  */
 public class Principal extends javax.swing.JFrame {
 
+    private GestionPartidoPolitico gestorPartidos = new GestionPartidoPolitico(100);
     private GestionCandidatos gestorCandidatos = new GestionCandidatos(100);
     private GestionElecciones gestorElecciones = new GestionElecciones(100);
     private Eleccion[] eleccionesDisponibles;
@@ -296,12 +298,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnPartidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPartidosActionPerformed
         // TODO add your handling code here:
-        ShowJPanel(new Partidos());
+        Partidos panelPartidos = new Partidos(gestorPartidos);
+        ShowJPanel(panelPartidos);
     }//GEN-LAST:event_btnPartidosActionPerformed
 
     private void btnCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCandidatosActionPerformed
         // TODO add your handling code here:
-        Candidatos panelCandidatos = new Candidatos(gestorCandidatos);
+        Candidatos panelCandidatos = new Candidatos(gestorCandidatos, gestorPartidos);
         ShowJPanel(panelCandidatos);
     }//GEN-LAST:event_btnCandidatosActionPerformed
 
@@ -341,7 +344,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformesActionPerformed
         // TODO add your handling code here:
-       Informes informePanel = new Informes(gestorActas);
+        Informes informePanel = new Informes(gestorActas);
         ShowJPanel(informePanel);
 
     }//GEN-LAST:event_btnInformesActionPerformed

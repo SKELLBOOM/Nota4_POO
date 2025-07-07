@@ -21,7 +21,8 @@ public class Partidos extends javax.swing.JPanel {
     /**
      * Creates new form Partidos
      */
-    public Partidos() {
+    public Partidos(GestionPartidoPolitico gestorPartidos) {
+        this.gestor = gestorPartidos;
         initComponents();
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new String[]{"Nombre", "Sigla", "Representante", "Símbolo"});
