@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
 import SistemaContarVotos.GestionPartidoPolitico;
 import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -354,7 +349,7 @@ public class Partidos extends javax.swing.JPanel {
         String representante = txtnombredelrepresentante.getText().trim();
         String simbolo = txtdescripcion.getText().trim();
 
-        if (nombre.isEmpty() || sigla.isEmpty() || representante.isEmpty()) {
+        if (nombre.trim().isEmpty() || sigla.trim().isEmpty() || representante.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
@@ -370,8 +365,6 @@ public class Partidos extends javax.swing.JPanel {
             txtnombredelrepresentante.setText("");
             txtdescripcion.setText("");
 
-          
-
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar el partido. Capacidad máxima alcanzada.");
         }
@@ -380,26 +373,25 @@ public class Partidos extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int filaSeleccionada = tablaPartidos.getSelectedRow();
 
-    if (filaSeleccionada >= 0) {
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Estás seguro de eliminar el partido seleccionado?",
-                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        if (filaSeleccionada >= 0) {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "¿Estás seguro de eliminar el partido seleccionado?",
+                    "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            
-            DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
-            modelo.removeRow(filaSeleccionada);
+            if (confirm == JOptionPane.YES_OPTION) {
 
-            
-            boolean eliminado = gestor.eliminarPartido(filaSeleccionada);
+                DefaultTableModel modelo = (DefaultTableModel) tablaPartidos.getModel();
+                modelo.removeRow(filaSeleccionada);
 
-            if (!eliminado) {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar del arreglo.");
+                boolean eliminado = gestor.eliminarPartido(filaSeleccionada);
+
+                if (!eliminado) {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar del arreglo.");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
-    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 

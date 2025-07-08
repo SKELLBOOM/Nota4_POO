@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
 import SistemaContarVotos.Eleccion;
 import SistemaContarVotos.GestionElecciones;
 import SistemaContarVotos.GestionMesas;
-import SistemaContarVotos.GestionPartidoPolitico;
 import SistemaContarVotos.MesaElectoral;
-import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -298,8 +291,8 @@ public class MesasElectorales extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIngresarCodigoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String codigo = txtIngresarCodigo.getText().trim();
-        String lugar = txtDigitarlugar.getText().trim();
+        String codigo = txtIngresarCodigo.getText();
+        String lugar = txtDigitarlugar.getText();
         int votantes;
 
         try {
@@ -337,18 +330,16 @@ public class MesasElectorales extends javax.swing.JPanel {
 
         if (filaSeleccionada >= 0) {
             int confirm = JOptionPane.showConfirmDialog(this,
-                    "¿Estás seguro de eliminar el partido seleccionado?",
+                    "¿Estás seguro de eliminar la mesa seleccionada?",
                     "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION) {
-
-                DefaultTableModel modelo = (DefaultTableModel) tablaMesas.getModel();
-                modelo.removeRow(filaSeleccionada);
-
                 boolean eliminado = gestorMesas.eliminarMesa(filaSeleccionada);
 
-                if (!eliminado) {
-                    JOptionPane.showMessageDialog(this, "No se pudo eliminar del arreglo.");
+                if (eliminado) {
+                    cargarTablaMesas();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar la mesa del arreglo.");
                 }
             }
         } else {
@@ -380,7 +371,7 @@ public class MesasElectorales extends javax.swing.JPanel {
                     break;
                 }
             }
-            
+
             if (mesaSeleccionada != null) {
                 javax.swing.JFrame ventana = new javax.swing.JFrame("Miembros de Mesa");
                 ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);

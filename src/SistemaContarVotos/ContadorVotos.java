@@ -1,7 +1,6 @@
 
 package SistemaContarVotos;
 
-import java.util.*;
 
 public class ContadorVotos {
 
@@ -9,29 +8,26 @@ public class ContadorVotos {
         private String nombreCompleto;
         private String partido;
         private int votos;
-        private double porcentaje;
 
-        public ResultadoConteo(String nombreCompleto, String partido, int votos, double porcentaje) {
+        public ResultadoConteo(String nombreCompleto, String partido, int votos) {
             this.nombreCompleto = nombreCompleto;
             this.partido = partido;
             this.votos = votos;
-            this.porcentaje = porcentaje;
         }
 
         public String getNombreCompleto() { return nombreCompleto; }
         public String getPartido() { return partido; }
         public int getVotos() { return votos; }
-        public double getPorcentaje() { return porcentaje; }
     }
 
     public static class ResultadoGlobal {
-        private List<ResultadoConteo> resultados;
+        private ResultadoConteo[] resultados;
         private int totalVotos;
         private int votosBlanco;
         private int votosNulos;
         private ResultadoConteo ganador;
 
-        public ResultadoGlobal(List<ResultadoConteo> resultados, int totalVotos, 
+        public ResultadoGlobal(ResultadoConteo[] resultados, int totalVotos, 
                 int votosBlanco, int votosNulos, ResultadoConteo ganador) {
             this.resultados = resultados;
             this.totalVotos = totalVotos;
@@ -40,7 +36,7 @@ public class ContadorVotos {
             this.ganador = ganador;
         }
 
-        public List<ResultadoConteo> getResultados() { return resultados; }
+        public ResultadoConteo[] getResultados() { return resultados; }
         public int getTotalVotos() { return totalVotos; }
         public int getVotosBlanco() { return votosBlanco; }
         public int getVotosNulos() { return votosNulos; }
@@ -48,45 +44,54 @@ public class ContadorVotos {
     }
 
     public static ResultadoGlobal contarVotos(GestionActas gestionActas) {
-        Map<Candidato, Integer> votosPorCandidato = new HashMap<>();
+        ActaElectoral[] actas = gestionActas.getActas();
+
+        Candidato[] candidatos = new Candidato[100];
+        int[] votosPorCandidato = new int[100];
+        int numCandidatos = 0;
+
         int totalVotos = 0;
         int totalBlanco = 0;
         int totalNulo = 0;
 
-        for (ActaElectoral acta : gestionActas.getActas()) {
-            Resultado[] resultados = acta.getResultados();
+        for (int i = 0; i < actas.length; i++) {
+            Resultado[] resultados = actas[i].getResultados();
 
-            for (Resultado rc : resultados) {
-                Candidato c = rc.getCandidato();
-                int votos = rc.getVotos();
-
-                votosPorCandidato.put(c, votosPorCandidato.getOrDefault(c, 0) + votos);
+            for (int j = 0; j < resultados.length; j++) {
+                Candidato c = resultados[j].getCandidato();
+                int votos = resultados[j].getVotos();
                 totalVotos += votos;
+
+                int index = buscarCandidato(candidatos, numCandidatos, c);
+                if (index == -1) {
+                    candidatos[numCandidatos] = c;
+                    votosPorCandidato[numCandidatos] = votos;
+                    numCandidatos++;
+                } else {
+                    votosPorCandidato[index] += votos;
+                }
             }
 
-            totalBlanco += acta.getVotosBlanco();
-            totalNulo += acta.getVotosNulos();
-            totalVotos += acta.getVotosBlanco() + acta.getVotosNulos();
+            totalBlanco += actas[i].getVotosBlanco();
+            totalNulo += actas[i].getVotosNulos();
+            totalVotos += actas[i].getVotosBlanco() + actas[i].getVotosNulos();
         }
 
-        // Construir lista de resultados
-        List<ResultadoConteo> listaResultados = new ArrayList<>();
+        ResultadoConteo[] resultadosFinales = new ResultadoConteo[numCandidatos];
         ResultadoConteo ganador = null;
         int maxVotos = -1;
 
-        for (Map.Entry<Candidato, Integer> entry : votosPorCandidato.entrySet()) {
-            Candidato c = entry.getKey();
-            int votos = entry.getValue();
-            double porcentaje = totalVotos > 0 ? (votos * 100.0) / totalVotos : 0;
+        for (int i = 0; i < numCandidatos; i++) {
+            Candidato c = candidatos[i];
+            int votos = votosPorCandidato[i];
 
             ResultadoConteo rc = new ResultadoConteo(
                 c.getNombres() + " " + c.getApellidos(),
                 c.getPartido().getNombre(),
-                votos,
-                porcentaje
+                votos
             );
 
-            listaResultados.add(rc);
+            resultadosFinales[i] = rc;
 
             if (votos > maxVotos) {
                 maxVotos = votos;
@@ -94,6 +99,15 @@ public class ContadorVotos {
             }
         }
 
-        return new ResultadoGlobal(listaResultados, totalVotos, totalBlanco, totalNulo, ganador);
+        return new ResultadoGlobal(resultadosFinales, totalVotos, totalBlanco, totalNulo, ganador);
+    }
+
+    private static int buscarCandidato(Candidato[] candidatos, int numCandidatos, Candidato c) {
+        for (int i = 0; i < numCandidatos; i++) {
+            if (candidatos[i].equals(c)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

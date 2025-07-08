@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
 import SistemaContarVotos.ActaElectoral;
+import SistemaContarVotos.Eleccion;
 import SistemaContarVotos.GestionActas;
+import SistemaContarVotos.GestionElecciones;
 import SistemaContarVotos.GestionMesas;
-import SistemaContarVotos.GestionPartidoPolitico;
 import SistemaContarVotos.MesaElectoral;
-import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,19 +16,28 @@ public class ActasElectorales extends javax.swing.JPanel {
 
     private GestionMesas gestorMesas;
     private GestionActas gestorActas;
+    private GestionElecciones gestorElecciones;
 
-    /**
-     * Creates new form Partidos
-     */
-    public ActasElectorales() {
+    public ActasElectorales(GestionMesas gestorMesas, GestionActas gestorActas, GestionElecciones gestorElecciones) {
         initComponents();
-    }
-    public ActasElectorales(GestionMesas gestorMesas, GestionActas gestorActas) {
-    initComponents();
-    this.gestorMesas = gestorMesas;
-    this.gestorActas = gestorActas;
+        this.gestorMesas = gestorMesas;
+        this.gestorActas = gestorActas;
+        this.gestorElecciones = gestorElecciones;
 
-}
+        combMesaElectoralActa.removeAllItems();
+        MesaElectoral[] mesas = gestorMesas.getMesas();
+        for (MesaElectoral m : mesas) {
+            if (m != null) {
+                combMesaElectoralActa.addItem(m.getIdMesa());
+            }
+        }
+        combEleccion.removeAllItems();
+        for (Eleccion e : gestorElecciones.getElecciones()) {
+            if (e != null) {
+                combEleccion.addItem(e.getTipo() + " - " + e.getFecha());
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,6 +97,9 @@ public class ActasElectorales extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         txtDigitarSello = new javax.swing.JTextField();
         btnRegistrarActa = new javax.swing.JToggleButton();
+        txtEleccion = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
+        combEleccion = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -354,6 +360,15 @@ public class ActasElectorales extends javax.swing.JPanel {
         });
         jPanel1.add(btnRegistrarActa, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 60, 120, 20));
 
+        txtEleccion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtEleccion.setForeground(new java.awt.Color(0, 0, 0));
+        txtEleccion.setText("Eleccion");
+        jPanel1.add(txtEleccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));
+        jPanel1.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 72, 10));
+
+        combEleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(combEleccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -415,21 +430,41 @@ public class ActasElectorales extends javax.swing.JPanel {
 
     private void btnRegistrarActaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActaActionPerformed
         // TODO add your handling code here:
+        if (txtDigitarTitulo.getText().equals("")
+                || txtDigitarFecha.getText().equals("")
+                || txtDigitarHora.getText().equals("")
+                || txtDigitarLugar.getText().equals("")
+                || txtDigitarActaUnico.getText().equals("")
+                || txtDigitarNroRegistrados.getText().equals("")
+                || txtDigitarEfectivos.getText().equals("")
+                || txtDigitarVotosBlanco.getText().equals("")
+                || txtDigitarVotosNulo.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(this, "Completa todos los campos obligatorios.");
+            return;
+        }
+
         try {
-            String titulo = txtDigitarTitulo.getText().trim();
-            String fecha = txtDigitarFecha.getText().trim();
-            String hora = txtDigitarHora.getText().trim();
-            String lugar = txtDigitarLugar.getText().trim();
+            String titulo = txtDigitarTitulo.getText();
+            String fecha = txtDigitarFecha.getText();
+            String hora = txtDigitarHora.getText();
+            String lugar = txtDigitarLugar.getText();
             String idMesa = (String) combMesaElectoralActa.getSelectedItem();
-            String miembros = txtDigitarMiembro.getText().trim();
-            int totalVotantes = Integer.parseInt(txtDigitarNroRegistrados.getText().trim());
-            int totalEfectivos = Integer.parseInt(txtDigitarEfectivos.getText().trim());
-            int blancos = Integer.parseInt(txtDigitarVotosBlanco.getText().trim());
-            int nulos = Integer.parseInt(txtDigitarVotosNulo.getText().trim());
-            String observaciones = txtDigitarObservacion.getText().trim();
-            String firmas = txtDigitarFirma.getText().trim();
-            String sello = txtDigitarSello.getText().trim();
-            String numeroActa = txtDigitarActaUnico.getText().trim();
+
+            if (idMesa == null) {
+                JOptionPane.showMessageDialog(this, "Selecciona una mesa electoral.");
+                return;
+            }
+
+            String miembros = txtDigitarMiembro.getText();
+            int totalVotantes = Integer.parseInt(txtDigitarNroRegistrados.getText());
+            int totalEfectivos = Integer.parseInt(txtDigitarEfectivos.getText());
+            int blancos = Integer.parseInt(txtDigitarVotosBlanco.getText());
+            int nulos = Integer.parseInt(txtDigitarVotosNulo.getText());
+            String observaciones = txtDigitarObservacion.getText();
+            String firmas = txtDigitarFirma.getText();
+            String sello = txtDigitarSello.getText();
+            String numeroActa = txtDigitarActaUnico.getText();
 
             MesaElectoral mesaSeleccionada = null;
             for (MesaElectoral m : gestorMesas.getMesas()) {
@@ -443,11 +478,19 @@ public class ActasElectorales extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Mesa electoral no encontrada.");
                 return;
             }
+            
+            int indexEleccion = combEleccion.getSelectedIndex();
+            if (indexEleccion == -1) {
+                JOptionPane.showMessageDialog(this, "Selecciona una elección.");
+                return;
+            }
+            Eleccion eleccionSeleccionada = gestorElecciones.getElecciones()[indexEleccion];
 
             ActaElectoral acta = new ActaElectoral(
                     numeroActa, titulo, hora, fecha, lugar, mesaSeleccionada,
                     totalVotantes, totalEfectivos, nulos, blancos,
-                    firmas, sello, observaciones, 0
+                    firmas, sello, observaciones, 0,
+                    eleccionSeleccionada
             );
 
             gestorActas.registrarActa(acta);
@@ -483,6 +526,7 @@ public class ActasElectorales extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnRegistrarActa;
+    private javax.swing.JComboBox<String> combEleccion;
     private javax.swing.JComboBox<String> combMesaElectoralActa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -502,6 +546,7 @@ public class ActasElectorales extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
@@ -530,6 +575,7 @@ public class ActasElectorales extends javax.swing.JPanel {
     private javax.swing.JTextField txtDigitarTitulo;
     private javax.swing.JTextField txtDigitarVotosBlanco;
     private javax.swing.JTextField txtDigitarVotosNulo;
+    private javax.swing.JLabel txtEleccion;
     private javax.swing.JTextField txtResultadoCandidato;
     // End of variables declaration//GEN-END:variables
 }

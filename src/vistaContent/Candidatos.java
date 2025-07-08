@@ -358,7 +358,7 @@ public class Candidatos extends javax.swing.JPanel {
 
         if (filaSeleccionada >= 0) {
             int confirm = JOptionPane.showConfirmDialog(this,
-                    "¿Estás seguro de eliminar el partido seleccionado?",
+                    "¿Estás seguro de eliminar el candidato seleccionado?",
                     "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION) {

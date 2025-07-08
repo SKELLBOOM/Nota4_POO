@@ -8,7 +8,7 @@ public class PartidoPolitico {
     private String representante;
     private String logo;
 
-    /*Constructor*/
+
     public PartidoPolitico(String nombre, String sigla, String representante, String logo) {
         this.nombre = nombre;
         this.sigla = sigla;

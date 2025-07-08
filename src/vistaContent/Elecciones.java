@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
 import SistemaContarVotos.Candidato;
 import SistemaContarVotos.Eleccion;
 import SistemaContarVotos.GestionCandidatos;
 import SistemaContarVotos.GestionElecciones;
-import SistemaContarVotos.GestionPartidoPolitico;
-import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -37,14 +28,17 @@ public class Elecciones extends javax.swing.JPanel {
     }
 
     private void cargarCandidatosDisponibles() {
-        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        DefaultListModel modeloLista = new DefaultListModel();
 
         Candidato[] lista = gestorCandidatos.getCandidatos();
 
-        for (Candidato c : lista) {
-            modeloLista.addElement(c.getNombres() + " " + c.getApellidos());
+        for (int i = 0; i < lista.length; i++) {
+            Candidato c = lista[i];
+            if (c != null) {
+                String nombreCompleto = c.getNombres() + " " + c.getApellidos();
+                modeloLista.addElement(nombreCompleto);
+            }
         }
-
         listEleccion.setModel(modeloLista);
     }
 
@@ -303,44 +297,58 @@ public class Elecciones extends javax.swing.JPanel {
         String fecha = txtDiaMesAnio.getText().trim();
         String eleccion = txtDigitarEleccion.getText().trim();
 
-        if (fecha.isEmpty() || eleccion.isEmpty()) {
+        if (fecha.equals("") || eleccion.equals("")) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
 
-        Eleccion nuevo = new Eleccion(eleccion, fecha, 10);
-        List<String> seleccionados = listEleccion.getSelectedValuesList();
-        if (seleccionados.isEmpty()) {
+        int[] indicesSeleccionados = listEleccion.getSelectedIndices();
+        String[] seleccionados = new String[indicesSeleccionados.length];
+
+        for (int i = 0; i < indicesSeleccionados.length; i++) {
+            seleccionados[i] = listEleccion.getModel().getElementAt(indicesSeleccionados[i]);
+        }
+
+        if (seleccionados.length == 0) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar al menos un candidato.");
             return;
         }
-        List<Candidato> candidatosAsociados = new ArrayList<>();
-        for (String nombreCompleto : seleccionados) {
-            for (Candidato c : gestorCandidatos.getCandidatos()) {
-                String nombreCandidato = c.getNombres() + " " + c.getApellidos();
-                if (nombreCandidato.equalsIgnoreCase(nombreCompleto)) {
-                    candidatosAsociados.add(c);
-                    break;
+
+        Candidato[] candidatosDisponibles = gestorCandidatos.getCandidatos();
+        Candidato[] candidatosAsociados = new Candidato[seleccionados.length];
+        int contador = 0;
+
+        for (int i = 0; i < seleccionados.length; i++) {
+            String nombreCompleto = seleccionados[i];
+            for (int j = 0; j < candidatosDisponibles.length; j++) {
+                Candidato c = candidatosDisponibles[j];
+                if (c != null) {
+                    String nombreCandidato = c.getNombres() + " " + c.getApellidos();
+                    if (nombreCandidato.equalsIgnoreCase(nombreCompleto)) {
+                        candidatosAsociados[contador] = c;
+                        contador++;
+                        break;
+                    }
                 }
             }
         }
+
         Eleccion nueva = new Eleccion(eleccion, fecha, 10);
 
-        for (Candidato c : candidatosAsociados) {
-            nuevo.agregarCandidato(c);
+        for (int i = 0; i < contador; i++) {
+            nueva.agregarCandidato(candidatosAsociados[i]);
         }
 
         boolean registrado = gestorElecciones.agregarEleccion(nueva);
 
         if (registrado) {
             DefaultTableModel modelo = (DefaultTableModel) tablaEleccion.getModel();
-            modelo.addRow(new Object[]{fecha, seleccionados.size() + " candidatos"});
+            modelo.addRow(new Object[]{fecha, contador + " candidatos"});
             txtDiaMesAnio.setText("");
             txtDigitarEleccion.setText("");
             listEleccion.clearSelection();
-
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo registrar el partido. Capacidad máxima alcanzada.");
+            JOptionPane.showMessageDialog(this, "No se pudo registrar la elección. Capacidad máxima alcanzada.");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -349,7 +357,7 @@ public class Elecciones extends javax.swing.JPanel {
 
         if (filaSeleccionada >= 0) {
             int confirm = JOptionPane.showConfirmDialog(this,
-                    "¿Estás seguro de eliminar el partido seleccionado?",
+                    "¿Estás seguro de eliminar la eleccion seleccionada?",
                     "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION) {

@@ -17,11 +17,12 @@ public class ActaElectoral {
     private String observaciones;
     private Resultado[] resultado;
     private int contadorResultados;
+    private Eleccion eleccion;
 
     public ActaElectoral(String numeroActa, String titulo,
             String hora, String fecha, String lugar, MesaElectoral mesa,
             int votantesRegistrados, int votosEmitidos, int votosNulos, int votosBlanco,
-            String firmas, String sello, String observaciones, int capacidadResultados) {
+            String firmas, String sello, String observaciones, int capacidadResultados, Eleccion eleccion) {
 
         this.numeroActa = numeroActa;
         this.titulo = titulo;
@@ -38,6 +39,7 @@ public class ActaElectoral {
         this.observaciones = observaciones;
         this.resultado = new Resultado[capacidadResultados];
         this.contadorResultados = 0;
+        this.eleccion = eleccion;
     }
 
     public boolean agregarResultado(Resultado rc) {
@@ -72,7 +74,10 @@ public class ActaElectoral {
     public int getVotosNulos() {
         return votosNulos;
     }
-
+    public Eleccion getEleccion() {
+        return eleccion;
+    }
+    
     public Resultado[] getResultados() {
         Resultado[] copia = new Resultado[contadorResultados];
         for (int i = 0; i < contadorResultados; i++) {

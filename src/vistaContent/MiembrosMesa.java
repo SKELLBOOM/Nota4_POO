@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package vistaContent;
 
 import SistemaContarVotos.GestionMesas;
-import SistemaContarVotos.GestionPartidoPolitico;
 import SistemaContarVotos.MesaElectoral;
 import SistemaContarVotos.MiembroMesa;
-import SistemaContarVotos.PartidoPolitico;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,12 +10,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ASUS
  */
-
 public class MiembrosMesa extends javax.swing.JPanel {
 
     private GestionMesas gestorMesas;
     private DefaultTableModel modelo;
     private MesaElectoral mesaSeleccionada;
+
     /**
      * Creates new form Partidos
      */
@@ -37,57 +30,57 @@ public class MiembrosMesa extends javax.swing.JPanel {
 
         cargarMesas();
     }
+
     private void cargarMesas() {
-    comboMesaElectoral.removeAllItems();
-    for (MesaElectoral m : gestorMesas.getMesas()) {
-        if (m != null) {
-            comboMesaElectoral.addItem(m.getIdMesa());
+        comboMesaElectoral.removeAllItems();
+        for (MesaElectoral m : gestorMesas.getMesas()) {
+            if (m != null) {
+                comboMesaElectoral.addItem(m.getIdMesa());
+            }
         }
     }
-}
+
     public MiembrosMesa(GestionMesas gestorMesas, MesaElectoral mesaSeleccionada) {
         initComponents();
         this.gestorMesas = gestorMesas;
         this.mesaSeleccionada = mesaSeleccionada;
         modelo = new DefaultTableModel(new Object[]{"Nombre", "Apellido", "Tipo", "Mesa"}, 0);
-    tablaMiembros.setModel(modelo);
+        tablaMiembros.setModel(modelo);
 
-    comboTipoMiembro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"presidente", "secretario", "vocal"}));
-    comboMesaElectoral.removeAllItems();
-    comboMesaElectoral.addItem(mesaSeleccionada.getIdMesa());
-    comboMesaElectoral.setSelectedIndex(0);
-    
-    cargarMiembrosDeMesaSeleccionada();
+        comboTipoMiembro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"presidente", "secretario", "vocal"}));
+        comboMesaElectoral.removeAllItems();
+        comboMesaElectoral.addItem(mesaSeleccionada.getIdMesa());
+        comboMesaElectoral.setSelectedIndex(0);
+
+        cargarMiembrosDeMesaSeleccionada();
 
     }
-    
+
     private void cargarMiembrosDeMesaSeleccionada() {
-    if (mesaSeleccionada != null) {
-        modelo.setRowCount(0); // Limpiar la tabla antes de llenar
+        if (mesaSeleccionada != null) {
+            modelo.setRowCount(0); // Limpiar la tabla antes de llenar
 
-        if (mesaSeleccionada.getPresidente() != null && !mesaSeleccionada.getPresidente().getNombres().isEmpty()) {
-            MiembroMesa m = mesaSeleccionada.getPresidente();
-            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "presidente", mesaSeleccionada.getIdMesa()});
-        }
-        if (mesaSeleccionada.getSecretario() != null && !mesaSeleccionada.getSecretario().getNombres().isEmpty()) {
-            MiembroMesa m = mesaSeleccionada.getSecretario();
-            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "secretario", mesaSeleccionada.getIdMesa()});
-        }
-        if (mesaSeleccionada.getVocal() != null && !mesaSeleccionada.getVocal().getNombres().isEmpty()) {
-            MiembroMesa m = mesaSeleccionada.getVocal();
-            modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "vocal", mesaSeleccionada.getIdMesa()});
+            if (mesaSeleccionada.getPresidente() != null && !mesaSeleccionada.getPresidente().getNombres().isEmpty()) {
+                MiembroMesa m = mesaSeleccionada.getPresidente();
+                modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "presidente", mesaSeleccionada.getIdMesa()});
+            }
+            if (mesaSeleccionada.getSecretario() != null && !mesaSeleccionada.getSecretario().getNombres().isEmpty()) {
+                MiembroMesa m = mesaSeleccionada.getSecretario();
+                modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "secretario", mesaSeleccionada.getIdMesa()});
+            }
+            if (mesaSeleccionada.getVocal() != null && !mesaSeleccionada.getVocal().getNombres().isEmpty()) {
+                MiembroMesa m = mesaSeleccionada.getVocal();
+                modelo.addRow(new Object[]{m.getNombres(), m.getApellidos(), "vocal", mesaSeleccionada.getIdMesa()});
+            }
         }
     }
-}
 
-    
-    
     private void limpiarCampos() {
-    txtDigitarNombreMiembro.setText("");
-    txtDigitarApellido.setText("");
-    comboTipoMiembro.setSelectedIndex(0);
-    comboMesaElectoral.setSelectedIndex(0);
-}
+        txtDigitarNombreMiembro.setText("");
+        txtDigitarApellido.setText("");
+        comboTipoMiembro.setSelectedIndex(0);
+        comboMesaElectoral.setSelectedIndex(0);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -291,9 +284,9 @@ public class MiembrosMesa extends javax.swing.JPanel {
     }//GEN-LAST:event_txtDigitarNombreMiembroActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
-        String nombre = txtDigitarNombreMiembro.getText().trim();
-        String apellido = txtDigitarApellido.getText().trim();
+
+        String nombre = txtDigitarNombreMiembro.getText();
+        String apellido = txtDigitarApellido.getText();
         String tipo = ((String) comboTipoMiembro.getSelectedItem()).toLowerCase();
         String idMesa = (String) comboMesaElectoral.getSelectedItem();
 
@@ -304,15 +297,38 @@ public class MiembrosMesa extends javax.swing.JPanel {
 
         MiembroMesa nuevoMiembro = new MiembroMesa(nombre, apellido, tipo);
 
-        // Buscar la mesa y asignar
         for (MesaElectoral mesa : gestorMesas.getMesas()) {
             if (mesa != null && mesa.getIdMesa().equals(idMesa)) {
+
+                MiembroMesa[] miembros = mesa.getMiembros();
+
+                int index = switch (tipo) {
+                    case "presidente" ->
+                        0;
+                    case "secretario" ->
+                        1;
+                    case "vocal" ->
+                        2;
+                    default ->
+                        -1;
+                };
+
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(this, "Tipo de miembro inválido.");
+                    return;
+                }
+
+                if (miembros[index] != null && miembros[index].getNombres() != null && !miembros[index].getNombres().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Ya existe un " + tipo + " en esta mesa.");
+                    return;
+                }
+
                 boolean asignado = mesa.asignarMiembro(nuevoMiembro);
                 if (asignado) {
                     modelo.addRow(new Object[]{nombre, apellido, tipo, idMesa});
                     limpiarCampos();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Tipo de miembro inválido.");
+                    JOptionPane.showMessageDialog(this, "No se pudo asignar el miembro.");
                 }
                 return;
             }
@@ -320,8 +336,6 @@ public class MiembrosMesa extends javax.swing.JPanel {
 
         JOptionPane.showMessageDialog(this, "Mesa no encontrada.");
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-
 
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -333,32 +347,32 @@ public class MiembrosMesa extends javax.swing.JPanel {
                     "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION) {
-                String tipo = (String) tablaMiembros.getValueAt(filaSeleccionada, 2); // columna tipo
-                String idMesa = (String) tablaMiembros.getValueAt(filaSeleccionada, 3); // columna mesa
 
-                // Buscar la mesa
+                String nombre = (String) tablaMiembros.getValueAt(filaSeleccionada, 0);
+                String apellido = (String) tablaMiembros.getValueAt(filaSeleccionada, 1);
+                String tipo = ((String) tablaMiembros.getValueAt(filaSeleccionada, 2)).toLowerCase();
+                String idMesa = (String) tablaMiembros.getValueAt(filaSeleccionada, 3);
+
                 for (MesaElectoral mesa : gestorMesas.getMesas()) {
                     if (mesa != null && mesa.getIdMesa().equals(idMesa)) {
-                        // Eliminar el miembro correspondiente
-                        switch (tipo.toLowerCase()) {
+                        switch (tipo) {
                             case "presidente":
-                                mesa.asignarMiembro(new MiembroMesa("", "", "presidente")); // limpia presidente
+                                mesa.asignarMiembro(new MiembroMesa("presidente", "", ""));
                                 break;
                             case "secretario":
-                                mesa.asignarMiembro(new MiembroMesa("", "", "secretario")); // limpia secretario
+                                mesa.asignarMiembro(new MiembroMesa("secretario", "", ""));
                                 break;
                             case "vocal":
-                                mesa.asignarMiembro(new MiembroMesa("", "", "vocal")); // limpia vocal
+                                mesa.asignarMiembro(new MiembroMesa("vocal", "", ""));
                                 break;
                         }
                         break;
                     }
                 }
-
-                // Quitar de la tabla
-                DefaultTableModel modelo = (DefaultTableModel) tablaMiembros.getModel();
                 modelo.removeRow(filaSeleccionada);
+                JOptionPane.showMessageDialog(this, "Miembro eliminado correctamente.");
             }
+
         } else {
             JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
         }

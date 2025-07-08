@@ -11,7 +11,6 @@ public class MesaElectoral {
     private MiembroMesa secretario;
     private MiembroMesa vocal;
 
-    //Miembro de mesa max 3 porque especifican solo, presidente, secretario y vocal
     public MesaElectoral(String lugar, String idMesa, int contadorMiembros, Eleccion eleccion) {
         this.idMesa = idMesa;
         this.lugar = lugar;
@@ -23,7 +22,7 @@ public class MesaElectoral {
 
     public boolean asignarMiembro(MiembroMesa miembro) {
 
-        String tipo = miembro.getTipoMiembro().trim().toLowerCase();
+        String tipo = miembro.getTipoMiembro().toLowerCase();
         switch (tipo) {
             case "presidente":
                 miembros[0] = miembro;
@@ -68,16 +67,20 @@ public class MesaElectoral {
         return eleccion;
     }
 
+    public MiembroMesa[] getMiembros() {
+        return miembros;
+    }
+
     public MiembroMesa getPresidente() {
-        return presidente;
+        return miembros[0];
     }
 
     public MiembroMesa getSecretario() {
-        return secretario;
+        return miembros[1];
     }
 
     public MiembroMesa getVocal() {
-        return vocal;
+        return miembros[2];
     }
 
 }

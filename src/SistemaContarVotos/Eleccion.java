@@ -6,6 +6,8 @@ public class Eleccion {
     private String fecha;
     private Candidato[] candidatos;
     private int cantidadCandidatos;
+    private MesaElectoral[] mesas = new MesaElectoral[50];
+    private int contadorMesas = 0;
 
     public Eleccion(String tipo, String fecha, int capacidadMaximaCandidatos) {
         this.tipo = tipo;
@@ -49,5 +51,17 @@ public class Eleccion {
 
     public int getCantidadCandidatos() {
         return cantidadCandidatos;
+    }
+
+    public MesaElectoral[] getMesas() {
+        return mesas;
+    }
+
+    public int getContadorMesas() {
+        return contadorMesas;
+    }
+
+    public String toString() {
+        return tipo + " - " + fecha;
     }
 }

@@ -2,11 +2,8 @@ package vistaContent;
 
 import SistemaContarVotos.Candidato;
 import SistemaContarVotos.GeneradorInformes;
+import SistemaContarVotos.GeneradorInformes.InformePorMesa;
 import SistemaContarVotos.GestionActas;
-import SistemaContarVotos.GestionMesas;
-import java.util.Map;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
 public class Informes extends javax.swing.JPanel {
 
     private GestionActas gestorActas;
-    private GestionMesas gestorMesas;
     private DefaultTableModel modelo;
+
     /**
      * Creates new form Partidos
      */
@@ -26,42 +23,86 @@ public class Informes extends javax.swing.JPanel {
         this.gestorActas = gestorActas;
 
         modelo = new DefaultTableModel(
-            new String[]{"Mesa", "Lugar", "Total Votantes", "Votos Emitidos", "Nulos", "Blancos", "Resultados"}, 0
+                new String[]{"Mesa", "Lugar", "Total Votantes", "Votos Emitidos", "Nulos", "Blancos", "Resultados"}, 0
         );
         tablaInforme.setModel(modelo);
-        cargarInforme();
+        cargarElecciones();
     }
-    
-     private void cargarInforme() {
+
+    private void cargarElecciones() {
+        String[] elecciones = gestorActas.getNombresElecciones();
+        jComboBox1.removeAllItems();
+        for (int i = 0; i < elecciones.length; i++) {
+            if (elecciones[i] != null) {
+                jComboBox1.addItem(elecciones[i]);
+            }
+        }
+
+        jComboBox1.addActionListener(e -> cargarMesasPorEleccion());
+    }
+
+    private void cargarMesasPorEleccion() {
+        String eleccionSeleccionada = (String) jComboBox1.getSelectedItem();
+        if (eleccionSeleccionada == null) {
+            return;
+        }
+
+        String[] mesas = gestorActas.getMesasPorEleccion(eleccionSeleccionada);
+        jComboBox2.removeAllItems();
+        for (int i = 0; i < mesas.length; i++) {
+            if (mesas[i] != null) {
+                jComboBox2.addItem(mesas[i]);
+            }
+        }
+
+        jComboBox2.addActionListener(e -> cargarInformePorMesa());
+    }
+
+    private void cargarInformePorMesa() {
+        String mesaSeleccionada = (String) jComboBox2.getSelectedItem();
+        if (mesaSeleccionada == null) {
+            return;
+        }
+
+        // Limpia tabla
         modelo.setRowCount(0);
-        for (GeneradorInformes.InformePorMesa informe : GeneradorInformes.generarInformeMesas(gestorActas)) {
-            String resumenResultados = generarResumenResultados(informe.getVotosPorCandidato());
-            Object[] fila = {
-                informe.getCodigoMesa(),
-                informe.getLugar(),
-                informe.getTotalVotantes(),
-                informe.getVotosEmitidos(),
-                informe.getVotosNulos(),
-                informe.getVotosBlancos(),
-                resumenResultados
-            };
-            modelo.addRow(fila);
+
+        InformePorMesa[] informes = GeneradorInformes.generarInformeMesas(gestorActas);
+        for (int i = 0; i < informes.length; i++) {
+            InformePorMesa informe = informes[i];
+            if (informe.getCodigoMesa().equalsIgnoreCase(mesaSeleccionada)) {
+                String resumen = generarResumenResultados(
+                        informe.getCandidatos(),
+                        informe.getVotosPorCandidato(),
+                        informe.getNumCandidatos()
+                );
+
+                Object[] fila = {
+                    informe.getCodigoMesa(),
+                    informe.getLugar(),
+                    informe.getTotalVotantes(),
+                    informe.getVotosEmitidos(),
+                    informe.getVotosNulos(),
+                    informe.getVotosBlancos(),
+                    resumen
+                };
+                modelo.addRow(fila);
+                break;
+            }
         }
     }
-    
-         private String generarResumenResultados(Map<Candidato, Integer> votosPorCandidato) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Candidato, Integer> entry : votosPorCandidato.entrySet()) {
-            Candidato c = entry.getKey();
-            int votos = entry.getValue();
-            sb.append(c.getNombres()).append(" ").append(c.getApellidos())
-              .append(" = ").append(votos).append(", ");
+
+    private String generarResumenResultados(Candidato[] candidatos, int[] votos, int total) {
+        String resumen = "";
+        for (int i = 0; i < total; i++) {
+            Candidato c = candidatos[i];
+            resumen += c.getNombres() + " " + c.getApellidos() + " = " + votos[i];
+            if (i < total - 1) {
+                resumen += ", ";
+            }
         }
-        if (sb.length() > 2) sb.setLength(sb.length() - 2); // quitar última coma
-        return sb.toString();
+        return resumen;
     }
-     
-         
 
     /**
      * This method is called from within the constructor to initialize the form.

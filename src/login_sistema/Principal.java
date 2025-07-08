@@ -332,7 +332,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnActasElectoralesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActasElectoralesActionPerformed
 
-        ActasElectorales actapanel = new ActasElectorales(gestorMesas, gestorActas);
+        ActasElectorales actapanel = new ActasElectorales(gestorMesas, gestorActas, gestorElecciones);
         ShowJPanel(actapanel);
     }//GEN-LAST:event_btnActasElectoralesActionPerformed
 
